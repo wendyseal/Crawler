@@ -1,0 +1,20 @@
+from urllib.request import urlopen,urlretrieve
+import ssl
+import os
+import json
+ssl._create_default_https_context=ssl._create_unverified_context
+a = urlopen("https://www.google.com/doodles/json/2020/6?hl=zh_TW")
+b = json.load(a)
+
+# b是一個list且含字典形式資料
+# 建立資料夾、重新命名檔案
+os.mkdir("doodles")
+j=0
+for d in b:
+    url ="http:"+d["url"]
+    fname = d["title"]
+    print(fname, url)
+    print(url.split("/")[-1])
+    urlretrieve(url,"doodles/"+url.split("/")[-1])
+    os.rename("doodles/"+url.split("/")[-1],"doodles/"+str(j)+"_"+fname+"."+url.split(".")[-1])
+    j=j+1
