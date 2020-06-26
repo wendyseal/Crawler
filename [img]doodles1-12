@@ -1,0 +1,22 @@
+from urllib.request import urlopen,urlretrieve
+import ssl
+import os
+import json
+ssl._create_default_https_context=ssl._create_unverified_context
+os.mkdir("doodles")
+for m in range(0,12,1):
+    a = urlopen("https://www.google.com/doodles/json/2019/"+str(m+1)+"?hl=zh_TW")
+    b = json.load(a)
+    os.mkdir("doodles/"+str(m+1))
+
+    #j=0
+    for d in b:
+        url ="http:"+d["url"]
+        fname = d["title"]
+        print(fname, url)
+        print(url.split("/")[-1])
+
+        urlretrieve(url,"doodles/"+str(m+1)+"/"+url.split("/")[-1])
+
+        #os.rename("doodles/"+str(m+1)+"/"+url.split("/")[-1],"doodles/"+str(m+1)+"/"+str(j)+"_"+fname+"."+url.split(".")[-1])
+        #j=j+1
